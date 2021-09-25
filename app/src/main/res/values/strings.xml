@@ -1,0 +1,11 @@
+<resources>
+  <string name="app_name">Tipper</string>
+  <string name="bill">Bill</string>
+  <string name="tip_text">Tip (%)</string>
+  <string name="tip_amount">Tip Amount ($)</string>
+  <string name="total_amount">Total Amount ($)</string>
+  <string name="formatted_tip_amount">%s</string>
+  <string name="default_number">15</string>
+  <string name="decrease_tip_sign">-</string>
+  <string name="increase_tip_sign">+</string>
+</resources>

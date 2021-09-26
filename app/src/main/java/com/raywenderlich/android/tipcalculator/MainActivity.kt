@@ -35,12 +35,16 @@
 package com.raywenderlich.android.tipcalculator
 
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.raywenderlich.android.tipper.R
 import com.raywenderlich.android.tipper.databinding.ActivityMainBinding
+import java.text.NumberFormat
 
 /**
  * Main Screen
@@ -95,8 +99,127 @@ class MainActivity : AppCompatActivity() {
    * Add textwatcher functionality for edittexts
    */
   private fun setupTextWatchers(){
+    binding.billEditTxtValue.addTextChangedListener(billTextWatcher)
+    binding.tipPercent.addTextChangedListener(tipPercentTextWatcher)
+    binding.tipAmountValue.addTextChangedListener(tipTotalTextWatcher)
     
   }
+
+  /**
+   * billTextWatcher
+   */
+  private val billTextWatcher: TextWatcher = object : TextWatcher {
+    override fun beforeTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {}
+    override fun onTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {
+      if (isTextChanged) {
+        isTextChanged = false
+        return
+      } else {
+        isTextChanged = true
+      }
+      try {
+        var billEditTextContent = binding.billEditTxtValue.text.toString()
+        val replaceable =
+          String.format("[%s,.\\s]", NumberFormat.getCurrencyInstance().currency.symbol)
+        billEditTextContent = billEditTextContent.replace(replaceable.toRegex(), "")
+        bill = if (billEditTextContent.isEmpty()) {
+          0
+        } else {
+          billEditTextContent.toInt()
+        }
+      } catch (e: Exception) {
+        Toast.makeText(this@MainActivity, "error", Toast.LENGTH_LONG)
+          .show()
+        bill = 0
+      }
+      setBillValueText()
+      if (billValue!!.substring(billValue!!.length - 1)
+        == NumberFormat.getCurrencyInstance().currency.symbol
+      ) {
+        binding.billEditTxtValue.setSelection(binding.billEditTxtValue.text!!.length - 2)
+      } else {
+        binding.billEditTxtValue.setSelection(binding.billEditTxtValue.text!!.length)
+      }
+    }
+
+    override fun afterTextChanged(editable: Editable) {
+      if (binding.billEditTxtValue.hasFocus()) {
+        calculateTipTotal()
+        setTipTotalValueText()
+        calculateTotal()
+        setTotalAmountText()
+      }
+    }
+  }
+
+  /**
+   * tipPercentTextWatcher
+   */
+  private val tipPercentTextWatcher: TextWatcher = object : TextWatcher {
+    override fun beforeTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {}
+    override fun onTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {}
+    override fun afterTextChanged(editable: Editable) {
+      if (!binding.tipAmountValue.hasFocus()) {
+        calculateTipTotal()
+        calculateTotal()
+        setTipTotalValueText()
+        setTotalAmountText()
+      }
+    }
+  }
+
+  /**
+   * tipTotalTextWatcher
+   */
+  private val tipTotalTextWatcher: TextWatcher = object : TextWatcher {
+    override fun beforeTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {}
+    override fun onTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {
+      if (binding.tipAmountValue.hasFocus()) {
+        if (isTextChanged) {
+          isTextChanged = false
+          return
+        } else {
+          isTextChanged = true
+        }
+        try {
+          var tipTotalEditTextContent = binding.tipAmountValue.text.toString()
+          val replaceable = String.format(
+            "[%s,.\\s]",
+            NumberFormat.getCurrencyInstance().currency.symbol
+          )
+          tipTotalEditTextContent =
+            tipTotalEditTextContent.replace(replaceable.toRegex(), "")
+          tipTotal = if (tipTotalEditTextContent.isEmpty()) {
+            0
+          } else {
+            tipTotalEditTextContent.toInt()
+          }
+        } catch (e: Exception) {
+          Toast.makeText(
+            this@MainActivity,
+            "error",
+            Toast.LENGTH_LONG
+          ).show()
+          tipTotal = 0
+        }
+        setTipTotalValueText()
+        if (tipTotalValue!!.substring(tipTotalValue!!.length - 1)
+          == NumberFormat.getCurrencyInstance().currency.symbol
+        ) {
+          binding.tipAmountValue.setSelection(binding.tipAmountValue.text.length - 2)
+        } else {
+          binding.tipAmountValue.setSelection(binding.tipAmountValue.text.length)
+        }
+        calculateTipPercentage()
+        setTipPercentageValueText()
+        calculateTotal()
+        setTotalAmountText()
+      }
+    }
+
+    override fun afterTextChanged(editable: Editable) {}
+  }
+
 
   /**
    * Add click functionality to buttons
@@ -123,48 +246,59 @@ class MainActivity : AppCompatActivity() {
    * Calculate tip percentage based on tipTotal
    */
   private fun calculateTipPercentage() {
-    // TODO: Implement calculations for tip percentage
+    tipPercent = if (bill == 0) {
+      defaultTipPercent
+    } else {
+      (tipTotal!! * 1.0 / bill!! * 100).toInt()
+    }
   }
 
   /**
    * Calculate tip total
    */
   private fun calculateTipTotal() {
-    // TODO: Calculate the tip total
+    tipTotal = bill!! * tipPercent!! / 100
   }
 
   /**
    * Calculate totalAmount
    */
   private fun calculateTotal(){
-    // TODO: Calculate the totalAmount
+    totalAmount = bill!! + tipTotal!!
   }
 
   /**
    * Set totalAmountTextView to current value of totalAmountValue
    */
   private fun setTotalAmountText(){
-    // TODO: Display totalAmountValue
+    val format = NumberFormat.getCurrencyInstance()
+    totalAmountValue = format.format(totalAmount!! / 100.0)
+    binding.totalAmountValue.text = totalAmountValue
   }
 
   /**
    * Set tipTotalEditText to current value of tipTotalValue
    */
   private fun setTipTotalValueText(){
-    // TODO: Display tipTotalValue
+    val format = NumberFormat.getCurrencyInstance()
+    tipTotalValue = format.format(tipTotal!! / 100.0)
+    binding.tipAmountValue.setText(tipTotalValue)
   }
 
   /**
    * Set billEditText to current value of billValue
    */
   private fun setBillValueText(){
-    // TODO: Display billValue
+    val format = NumberFormat.getCurrencyInstance()
+    billValue = format.format(bill!! / 100.0)
+    binding.billEditTxtValue.setText(billValue)
   }
 
   /**
    * Set tipPercentTextView to current value of tipPercentValue
    */
   private fun setTipPercentageValueText(){
-    // TODO: Display tipPercentValue
+    tipPercentValue = tipPercent.toString() + "%"
+    binding.tipPercent.text = tipPercentValue
   }
 }

@@ -1,6 +1,6 @@
 # Tipper
 
-Sample Android app
+Sample Android app to calculate the tip percentage and the tip total automatically, as the bill amount and percentage are set.
 
 ## License
 

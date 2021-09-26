@@ -50,7 +50,6 @@ class MainActivity : AppCompatActivity() {
 
   private lateinit var binding: ActivityMainBinding
 
-  // TODO: Initialize variables
   private var isTextChanged = true
 
   private var bill: Int? = null

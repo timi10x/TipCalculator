@@ -41,6 +41,7 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.raywenderlich.android.tipper.R
 import com.raywenderlich.android.tipper.databinding.ActivityMainBinding
+import java.text.NumberFormat
 
 /**
  * Main Screen
@@ -50,6 +51,20 @@ class MainActivity : AppCompatActivity() {
   private lateinit var binding: ActivityMainBinding
 
   // TODO: Initialize variables
+  private var isTextChanged = true
+
+  private var bill: Int? = null
+  private var billValue: String? = null
+
+  private val defaultTipPercent = 15
+  private var tipPercent: Int? = null
+  private var tipPercentValue: String? = null
+
+  private var tipTotal: Int? = null
+  private var tipTotalValue: String? = null
+
+  private var totalAmount: Int? = null
+  private var totalAmountValue: String? = null
 
   override fun onCreate(savedInstanceState: Bundle?) {
     // Switch to AppTheme for displaying the activity
@@ -62,8 +77,18 @@ class MainActivity : AppCompatActivity() {
     binding.tipAmountValue.background = null
 
     // Your code
+    bill = 0
+    tipPercent = defaultTipPercent
+    tipTotal = 0
+    totalAmount = 0
 
-    // TODO: Attach functions to activity lifecycle
+    //Attach functions to activity lifecycle
+    setupClickListeners()
+    setupTextWatchers()
+    setBillValueText()
+    setTipPercentageValueText()
+    setTipTotalValueText()
+    setTotalAmountText()
 
   }
 
@@ -81,52 +106,65 @@ class MainActivity : AppCompatActivity() {
     // TODO: Add button click listeners
   }
 
+  // TODO: Add TextWatchers to object
+
   /**
    * Calculate tip percentage based on tipTotal
    */
   private fun calculateTipPercentage() {
-    // TODO: Implement calculations for tip percentage
+    tipPercent = if (bill == 0) {
+      defaultTipPercent
+    } else {
+      (tipTotal!! * 1.0 / bill!! * 100).toInt()
+    }
   }
 
   /**
    * Calculate tip total
    */
   private fun calculateTipTotal() {
-    // TODO: Calculate the tip total
+    tipTotal = bill!! * tipPercent!! / 100
   }
 
   /**
    * Calculate totalAmount
    */
   private fun calculateTotal(){
-    // TODO: Calculate the totalAmount
+    totalAmount = bill!! + tipTotal!!
   }
 
   /**
    * Set totalAmountTextView to current value of totalAmountValue
    */
   private fun setTotalAmountText(){
-    // TODO: Display totalAmountValue
+    val format = NumberFormat.getCurrencyInstance()
+    totalAmountValue = format.format(totalAmount!! / 100.0)
+    binding.totalAmountValue.text = totalAmountValue
   }
 
   /**
    * Set tipTotalEditText to current value of tipTotalValue
    */
   private fun setTipTotalValueText(){
-    // TODO: Display tipTotalValue
+    val format = NumberFormat.getCurrencyInstance()
+    tipTotalValue = format.format(tipTotal!! / 100.0)
+    binding.tipAmountValue.setText(tipTotalValue)
   }
 
   /**
    * Set billEditText to current value of billValue
    */
   private fun setBillValueText(){
-    // TODO: Display billValue
+    val format = NumberFormat.getCurrencyInstance()
+    billValue = format.format(bill!! / 100.0)
+    binding.billEditTxtValue.setText(billValue)
   }
 
   /**
    * Set tipPercentTextView to current value of tipPercentValue
    */
   private fun setTipPercentageValueText(){
-    // TODO: Display tipPercentValue
+    tipPercentValue = tipPercent.toString() + "%"
+    binding.tipPercent.text = tipPercentValue
   }
 }

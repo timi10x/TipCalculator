@@ -52,11 +52,74 @@ class MainActivity : AppCompatActivity() {
 
     super.onCreate(savedInstanceState)
     binding = ActivityMainBinding.inflate(layoutInflater)
-/**/
+
     setContentView(binding.root)
 
     // Your code
 
 
+  }
+
+  /**
+   * Add textwatcher functionality for edittexts
+   */
+  private fun setupTextWatchers(){
+
+  }
+
+  /**
+   * Add click functionality to buttons
+   */
+  private fun setupClickListeners(){
+
+  }
+
+  /**
+   * Calculate tip percentage based on tipTotal
+   */
+  private fun calculateTipPercentage() {
+    //TODO:
+  }
+
+  /**
+   * Calculate tip total
+   */
+  private fun calculateTipTotal() {
+    //TODO:
+  }
+
+  /**
+   * Calculate totalAmount
+   */
+  private fun calculateTotal(){
+    //TODO:
+  }
+
+  /**
+   * Set totalAmountTextView to current value of totalAmountValue
+   */
+  private fun setTotalAmountText(){
+    //TODO:
+  }
+
+  /**
+   * Set tipTotalEditText to current value of tipTotalValue
+   */
+  private fun setTipTotalValueText(){
+    //TODO:
+  }
+
+  /**
+   * Set billEditText to current value of billValue
+   */
+  private fun setBillValueText(){
+    //TODO:
+  }
+
+  /**
+   * Set tipPercentTextView to current value of tipPercentValue
+   */
+  private fun setTipPercentageValueText(){
+    //TODO:
   }
 }

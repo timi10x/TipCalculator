@@ -46,6 +46,8 @@ class MainActivity : AppCompatActivity() {
 
   private lateinit var binding: ActivityMainBinding
 
+  // TODO: Initialize variables
+
   override fun onCreate(savedInstanceState: Bundle?) {
     // Switch to AppTheme for displaying the activity
     setTheme(R.style.AppTheme)
@@ -64,62 +66,62 @@ class MainActivity : AppCompatActivity() {
    * Add textwatcher functionality for edittexts
    */
   private fun setupTextWatchers(){
-
+    // TODO: Implement TextWatchers
   }
 
   /**
    * Add click functionality to buttons
    */
   private fun setupClickListeners(){
-
+    // TODO: Add button click listeners
   }
 
   /**
    * Calculate tip percentage based on tipTotal
    */
   private fun calculateTipPercentage() {
-    //TODO:
+    // TODO: Implement calculations for tip percentage
   }
 
   /**
    * Calculate tip total
    */
   private fun calculateTipTotal() {
-    //TODO:
+    // TODO: Calculate the tip total
   }
 
   /**
    * Calculate totalAmount
    */
   private fun calculateTotal(){
-    //TODO:
+    // TODO: Calculate the totalAmount
   }
 
   /**
    * Set totalAmountTextView to current value of totalAmountValue
    */
   private fun setTotalAmountText(){
-    //TODO:
+    // TODO: Display totalAmountValue
   }
 
   /**
    * Set tipTotalEditText to current value of tipTotalValue
    */
   private fun setTipTotalValueText(){
-    //TODO:
+    // TODO: Display tipTotalValue
   }
 
   /**
    * Set billEditText to current value of billValue
    */
   private fun setBillValueText(){
-    //TODO:
+    // TODO: Display billValue
   }
 
   /**
    * Set tipPercentTextView to current value of tipPercentValue
    */
   private fun setTipPercentageValueText(){
-    //TODO:
+    // TODO: Display tipPercentValue
   }
 }

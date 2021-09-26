@@ -35,6 +35,9 @@
 package com.raywenderlich.android.tipcalculator
 
 import android.os.Bundle
+import android.widget.Button
+import android.widget.EditText
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.raywenderlich.android.tipper.R
 import com.raywenderlich.android.tipper.databinding.ActivityMainBinding
@@ -56,9 +59,11 @@ class MainActivity : AppCompatActivity() {
     binding = ActivityMainBinding.inflate(layoutInflater)
 
     setContentView(binding.root)
+    binding.tipAmountValue.background = null
 
     // Your code
 
+    // TODO: Attach functions to activity lifecycle
 
   }
 

@@ -35,6 +35,9 @@
 package com.raywenderlich.android.tipcalculator
 
 import android.os.Bundle
+import android.widget.Button
+import android.widget.EditText
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.raywenderlich.android.tipper.R
 import com.raywenderlich.android.tipper.databinding.ActivityMainBinding
@@ -46,7 +49,21 @@ class MainActivity : AppCompatActivity() {
 
   private lateinit var binding: ActivityMainBinding
 
-  // TODO: Initialize variables
+  private var isTextChanged = true
+
+  private var bill: Int? = null
+  private var billValue: String? = null
+
+  private val defaultTipPercent = 15
+  private var tipPercent: Int? = null
+  private var tipPercentValue: String? = null
+
+  private var tipTotal: Int? = null
+  private var tipTotalValue: String? = null
+
+  private var totalAmount: Int? = null
+  private var totalAmountValue: String? = null
+
 
   override fun onCreate(savedInstanceState: Bundle?) {
     // Switch to AppTheme for displaying the activity
@@ -57,8 +74,20 @@ class MainActivity : AppCompatActivity() {
 
     setContentView(binding.root)
 
-    // Your code
+    bill = 0
+    tipPercent = defaultTipPercent
+    tipTotal = 0
+    totalAmount = 0
 
+    binding.tipAmountValue.background = null
+    binding.billEditTxtValue.isFocusable = true
+
+    setupClickListeners()
+    setupTextWatchers()
+    setBillValueText()
+    setTipPercentageValueText()
+    setTipTotalValueText()
+    setTotalAmountText()
 
   }
 
@@ -66,14 +95,28 @@ class MainActivity : AppCompatActivity() {
    * Add textwatcher functionality for edittexts
    */
   private fun setupTextWatchers(){
-    // TODO: Implement TextWatchers
+    
   }
 
   /**
    * Add click functionality to buttons
    */
   private fun setupClickListeners(){
-    // TODO: Add button click listeners
+    binding.buttonDecreaseTipPercent.setOnClickListener {
+      binding.tipAmountValue.clearFocus()
+      if (tipPercent!! > 0) {
+        tipPercent = tipPercent!! - 1
+        setTipPercentageValueText()
+      }
+    }
+
+    binding.buttonIncreaseTipPercent.setOnClickListener {
+      binding.tipAmountValue.clearFocus()
+      if (tipPercent!! < 100) {
+        tipPercent = tipPercent!! + 1
+        setTipPercentageValueText()
+      }
+    }
   }
 
   /**

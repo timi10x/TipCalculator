@@ -98,11 +98,11 @@ class MainActivity : AppCompatActivity() {
   /**
    * Add textwatcher functionality for edittexts
    */
-  private fun setupTextWatchers(){
+  private fun setupTextWatchers() {
     binding.billEditTxtValue.addTextChangedListener(billTextWatcher)
     binding.tipPercent.addTextChangedListener(tipPercentTextWatcher)
     binding.tipAmountValue.addTextChangedListener(tipTotalTextWatcher)
-    
+
   }
 
   /**
@@ -224,7 +224,7 @@ class MainActivity : AppCompatActivity() {
   /**
    * Add click functionality to buttons
    */
-  private fun setupClickListeners(){
+  private fun setupClickListeners() {
     binding.buttonDecreaseTipPercent.setOnClickListener {
       binding.tipAmountValue.clearFocus()
       if (tipPercent!! > 0) {
@@ -263,14 +263,14 @@ class MainActivity : AppCompatActivity() {
   /**
    * Calculate totalAmount
    */
-  private fun calculateTotal(){
+  private fun calculateTotal() {
     totalAmount = bill!! + tipTotal!!
   }
 
   /**
    * Set totalAmountTextView to current value of totalAmountValue
    */
-  private fun setTotalAmountText(){
+  private fun setTotalAmountText() {
     val format = NumberFormat.getCurrencyInstance()
     totalAmountValue = format.format(totalAmount!! / 100.0)
     binding.totalAmountValue.text = totalAmountValue
@@ -279,7 +279,7 @@ class MainActivity : AppCompatActivity() {
   /**
    * Set tipTotalEditText to current value of tipTotalValue
    */
-  private fun setTipTotalValueText(){
+  private fun setTipTotalValueText() {
     val format = NumberFormat.getCurrencyInstance()
     tipTotalValue = format.format(tipTotal!! / 100.0)
     binding.tipAmountValue.setText(tipTotalValue)
@@ -288,7 +288,7 @@ class MainActivity : AppCompatActivity() {
   /**
    * Set billEditText to current value of billValue
    */
-  private fun setBillValueText(){
+  private fun setBillValueText() {
     val format = NumberFormat.getCurrencyInstance()
     billValue = format.format(bill!! / 100.0)
     binding.billEditTxtValue.setText(billValue)
@@ -297,7 +297,7 @@ class MainActivity : AppCompatActivity() {
   /**
    * Set tipPercentTextView to current value of tipPercentValue
    */
-  private fun setTipPercentageValueText(){
+  private fun setTipPercentageValueText() {
     tipPercentValue = tipPercent.toString() + "%"
     binding.tipPercent.text = tipPercentValue
   }

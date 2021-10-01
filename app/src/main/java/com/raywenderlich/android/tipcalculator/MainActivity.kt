@@ -35,9 +35,12 @@
 package com.raywenderlich.android.tipcalculator
 
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.raywenderlich.android.tipper.R
 import com.raywenderlich.android.tipper.databinding.ActivityMainBinding
@@ -105,7 +108,87 @@ class MainActivity : AppCompatActivity() {
     // TODO: Add button click listeners
   }
 
-  // TODO: Add TextWatchers to object
+  /**
+   * billTextWatcher
+   */
+  private val billTextWatcher: TextWatcher = object : TextWatcher {
+    override fun beforeTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {}
+    override fun onTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {
+      if (isTextChanged) {
+        isTextChanged = false
+        return
+      } else {
+        isTextChanged = true
+      }
+      // TODO: Get bill text input
+      setBillValueText()
+      if (billValue!!.substring(billValue!!.length - 1)
+        == NumberFormat.getCurrencyInstance().currency.symbol
+      ) {
+        binding.billEditTxtValue.setSelection(binding.billEditTxtValue.text!!.length - 2)
+      } else {
+        binding.billEditTxtValue.setSelection(binding.billEditTxtValue.text!!.length)
+      }
+    }
+
+    override fun afterTextChanged(editable: Editable) {
+      if (binding.billEditTxtValue.hasFocus()) {
+        calculateTipTotal()
+        setTipTotalValueText()
+        calculateTotal()
+        setTotalAmountText()
+      }
+    }
+  }
+
+  /**
+   * tipPercentTextWatcher
+   */
+  private val tipPercentTextWatcher: TextWatcher = object : TextWatcher {
+    override fun beforeTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {}
+    override fun onTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {}
+    override fun afterTextChanged(editable: Editable) {
+      if (!binding.tipAmountValue.hasFocus()) {
+        calculateTipTotal()
+        calculateTotal()
+        setTipTotalValueText()
+        setTotalAmountText()
+      }
+    }
+  }
+
+  /**
+   * tipTotalTextWatcher
+   */
+  private val tipTotalTextWatcher: TextWatcher = object : TextWatcher {
+    override fun beforeTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {}
+    override fun onTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {
+      if (binding.tipAmountValue.hasFocus()) {
+        if (isTextChanged) {
+          isTextChanged = false
+          return
+        } else {
+          isTextChanged = true
+        }
+        // TODO: Get tipTotal text input
+        setTipTotalValueText()
+        if (tipTotalValue!!.substring(tipTotalValue!!.length - 1)
+          == NumberFormat.getCurrencyInstance().currency.symbol
+        ) {
+          binding.tipAmountValue.setSelection(binding.tipAmountValue.text.length - 2)
+        } else {
+          binding.tipAmountValue.setSelection(binding.tipAmountValue.text.length)
+        }
+        calculateTipPercentage()
+        setTipPercentageValueText()
+        calculateTotal()
+        setTotalAmountText()
+      }
+    }
+
+    override fun afterTextChanged(editable: Editable) {}
+  }
+
 
   /**
    * Calculate tip percentage based on tipTotal
